@@ -93,7 +93,7 @@ STATICFILES_DIRS = (
 INSTALLED_APPS += ( 'dashboard', )
 
 # SiteID
-SITE_ID = 1
+SITE_ID = 2
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -120,16 +120,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
-    # 'facebook': {
-    #     'SCOPE': ['email', 'publish_stream'],
-    #     'METHOD': 'js_sdk'  # instead of 'oauth2'
-    # }
+    'facebook': {
+        'SCOPE': ['email', 'publish_stream'],
+        'METHOD': 'js_sdk'  # instead of 'oauth2'
+    }
 }
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 INSTALLED_APPS += (
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-#    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.facebook',
 )
