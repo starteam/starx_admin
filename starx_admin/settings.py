@@ -20,9 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'fqy7m2xs_fa(e*3mc$lsr71c6(3z!%06@io^&7%rj717oq-u0f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['STARX_ENV'] != 'PROD'
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = os.environ['STARX_ENV'] != 'PROD'
 
 ALLOWED_HOSTS = []
 
@@ -58,8 +58,11 @@ WSGI_APPLICATION = 'starx_admin.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ['MYSQL_DATABASE'],
+	'HOST': '127.0.0.1',
+	'USER' : os.environ['MYSQL_USER'],
+	'PASSWORD': os.environ['MYSQL_PASSWORD']
     }
 }
 
