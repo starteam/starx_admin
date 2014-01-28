@@ -54,3 +54,6 @@ venv/
 
 # Postgres Data
 pg_data/
+
+# Idea workspace 
+.idea/workspace.xml
