@@ -57,3 +57,4 @@ pg_data/
 
 # Idea workspace 
 .idea/workspace.xml
+.idea/dataSources.ids
