@@ -19,3 +19,7 @@ VALUES ("facebook", "Facebook", "--put-your-own-app-secret-here--", "--put-your-
 INSERT INTO socialaccount_socialapp_sites (socialapp_id, site_id) VALUES (1,1);
 
 Also, site ID must be defined in settings and match the one here.
+
+In Google Console need to create:
+ Client ID for web applications with redirect uris: http://starx2.mit.edu:5000/accounts/google/login/callback/
+
