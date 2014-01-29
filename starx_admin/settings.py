@@ -123,6 +123,10 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'publish_stream'],
         'METHOD': 'js_sdk'  # instead of 'oauth2'
+    },
+    'google': {
+        'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/plus/v1/people/me'],
+        'METHOD': 'oauth2'
     }
 }
 
@@ -134,4 +138,5 @@ INSTALLED_APPS += (
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google'
 )
