@@ -140,3 +140,10 @@ INSTALLED_APPS += (
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google'
 )
+
+
+## django-extensions
+INSTALLED_APPS += (
+    'django_extensions',
+    'debug_toolbar'
+)
