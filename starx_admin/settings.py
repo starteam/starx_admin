@@ -125,7 +125,7 @@ SOCIALACCOUNT_PROVIDERS = {
         'METHOD': 'js_sdk'  # instead of 'oauth2'
     },
     'google': {
-        'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/plus/v1/people/me'],
+        'SCOPE': ['https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email'],
         'METHOD': 'oauth2'
     }
 }
