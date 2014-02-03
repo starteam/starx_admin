@@ -1,0 +1,9 @@
+- model: dashboard.Product
+  pk: 1
+  fields:
+    title: Simple Text Area
+
+- model: dashboard.Product
+  pk: 2
+  fields:
+    title: Star Distance Map
