@@ -3,4 +3,5 @@ from django.utils import importlib
 
 urlpatterns = patterns('',
     url(r'^$', 'dashboard.views.index', name='home'),
+    url(r'^/$', 'dashboard.views.index', name='home'),
 )
