@@ -1,0 +1,645 @@
+-- MySQL dump 10.13  Distrib 5.6.15, for osx10.8 (x86_64)
+--
+-- Host: localhost    Database: starx_admin
+-- ------------------------------------------------------
+-- Server version	5.6.15
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `account_emailaddress`
+--
+
+DROP TABLE IF EXISTS `account_emailaddress`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_emailaddress` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `email` varchar(75) NOT NULL,
+  `verified` tinyint(1) NOT NULL,
+  `primary` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `account_emailaddress_6340c63c` (`user_id`),
+  CONSTRAINT `user_id_refs_id_4aacde5e` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_emailaddress`
+--
+
+LOCK TABLES `account_emailaddress` WRITE;
+/*!40000 ALTER TABLE `account_emailaddress` DISABLE KEYS */;
+INSERT INTO `account_emailaddress` VALUES (1,1,'ceraj@mit.edu',0,0),(2,2,'iceraj@hotmail.com',0,1),(3,3,'iceraj@gmail.com',1,1);
+/*!40000 ALTER TABLE `account_emailaddress` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `account_emailconfirmation`
+--
+
+DROP TABLE IF EXISTS `account_emailconfirmation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account_emailconfirmation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email_address_id` int(11) NOT NULL,
+  `created` datetime NOT NULL,
+  `sent` datetime DEFAULT NULL,
+  `key` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `key` (`key`),
+  KEY `account_emailconfirmation_a659cab3` (`email_address_id`),
+  CONSTRAINT `email_address_id_refs_id_6ea1eea3` FOREIGN KEY (`email_address_id`) REFERENCES `account_emailaddress` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account_emailconfirmation`
+--
+
+LOCK TABLES `account_emailconfirmation` WRITE;
+/*!40000 ALTER TABLE `account_emailconfirmation` DISABLE KEYS */;
+INSERT INTO `account_emailconfirmation` VALUES (1,2,'2014-01-28 21:08:02',NULL,'601fa1f4fb2422b6b93d5caaacd2c205bd1f364415d8e9401858efbe717dce86');
+/*!40000 ALTER TABLE `account_emailconfirmation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group`
+--
+
+DROP TABLE IF EXISTS `auth_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group`
+--
+
+LOCK TABLES `auth_group` WRITE;
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_group_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_group_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`permission_id`),
+  KEY `auth_group_permissions_5f412f9a` (`group_id`),
+  KEY `auth_group_permissions_83d7f98b` (`permission_id`),
+  CONSTRAINT `group_id_refs_id_f4b32aac` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `permission_id_refs_id_6ba0f519` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_group_permissions`
+--
+
+LOCK TABLES `auth_group_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_permission`
+--
+
+DROP TABLE IF EXISTS `auth_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `content_type_id` int(11) NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
+  KEY `auth_permission_37ef4eb4` (`content_type_id`),
+  CONSTRAINT `content_type_id_refs_id_d043b34a` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_permission`
+--
+
+LOCK TABLES `auth_permission` WRITE;
+/*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can add permission',2,'add_permission'),(5,'Can change permission',2,'change_permission'),(6,'Can delete permission',2,'delete_permission'),(7,'Can add group',3,'add_group'),(8,'Can change group',3,'change_group'),(9,'Can delete group',3,'delete_group'),(10,'Can add user',4,'add_user'),(11,'Can change user',4,'change_user'),(12,'Can delete user',4,'delete_user'),(13,'Can add content type',5,'add_contenttype'),(14,'Can change content type',5,'change_contenttype'),(15,'Can delete content type',5,'delete_contenttype'),(16,'Can add session',6,'add_session'),(17,'Can change session',6,'change_session'),(18,'Can delete session',6,'delete_session'),(19,'Can add site',7,'add_site'),(20,'Can change site',7,'change_site'),(21,'Can delete site',7,'delete_site'),(22,'Can add email address',8,'add_emailaddress'),(23,'Can change email address',8,'change_emailaddress'),(24,'Can delete email address',8,'delete_emailaddress'),(25,'Can add email confirmation',9,'add_emailconfirmation'),(26,'Can change email confirmation',9,'change_emailconfirmation'),(27,'Can delete email confirmation',9,'delete_emailconfirmation'),(28,'Can add social app',10,'add_socialapp'),(29,'Can change social app',10,'change_socialapp'),(30,'Can delete social app',10,'delete_socialapp'),(31,'Can add social account',11,'add_socialaccount'),(32,'Can change social account',11,'change_socialaccount'),(33,'Can delete social account',11,'delete_socialaccount'),(34,'Can add social token',12,'add_socialtoken'),(35,'Can change social token',12,'change_socialtoken'),(36,'Can delete social token',12,'delete_socialtoken'),(37,'Can add product',13,'add_product'),(38,'Can change product',13,'change_product'),(39,'Can delete product',13,'delete_product'),(40,'Can add public url',14,'add_publicurl'),(41,'Can change public url',14,'change_publicurl'),(42,'Can delete public url',14,'delete_publicurl'),(43,'Can add compiled config',15,'add_compiledconfig'),(44,'Can change compiled config',15,'change_compiledconfig'),(45,'Can delete compiled config',15,'delete_compiledconfig'),(46,'Can add config',16,'add_config'),(47,'Can change config',16,'change_config'),(48,'Can delete config',16,'delete_config'),(49,'Can add audit log',17,'add_auditlog'),(50,'Can change audit log',17,'change_auditlog'),(51,'Can delete audit log',17,'delete_auditlog');
+/*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user`
+--
+
+DROP TABLE IF EXISTS `auth_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime NOT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `email` varchar(75) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user`
+--
+
+LOCK TABLES `auth_user` WRITE;
+/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$12000$USQxeDeMQ9zs$eP6WPGAgBm0TJJUbcia0d8kzcurfu1XbHE2YOV7DfQw=','2014-01-29 15:43:24',1,'starx_admin','','','ceraj@mit.edu',1,1,'2014-01-28 19:41:02'),(2,'!vAgpvfSO0e6OQc0WRxOQfFu4AvMuH82tFobAYUXQ','2014-01-28 21:08:02',0,'ivica.ceraj','Ivica','Ceraj','iceraj@hotmail.com',0,1,'2014-01-28 21:08:02'),(3,'!SAXnVuXQfrcATm3wvjnC1pwV8nrbcjLlcnhB1EoI','2014-02-03 15:43:03',0,'ivica','Ivica','Ceraj','iceraj@gmail.com',0,1,'2014-01-29 15:58:14');
+/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user_groups`
+--
+
+DROP TABLE IF EXISTS `auth_user_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`group_id`),
+  KEY `auth_user_groups_6340c63c` (`user_id`),
+  KEY `auth_user_groups_5f412f9a` (`group_id`),
+  CONSTRAINT `group_id_refs_id_274b862c` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `user_id_refs_id_40c41112` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_groups`
+--
+
+LOCK TABLES `auth_user_groups` WRITE;
+/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auth_user_user_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_user_user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_user_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`permission_id`),
+  KEY `auth_user_user_permissions_6340c63c` (`user_id`),
+  KEY `auth_user_user_permissions_83d7f98b` (`permission_id`),
+  CONSTRAINT `permission_id_refs_id_35d9ac25` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `user_id_refs_id_4dc23c39` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_user_permissions`
+--
+
+LOCK TABLES `auth_user_user_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dashboard_auditlog`
+--
+
+DROP TABLE IF EXISTS `dashboard_auditlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dashboard_auditlog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `action` varchar(60) NOT NULL,
+  `details` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `dashboard_auditlog_6340c63c` (`user_id`),
+  CONSTRAINT `user_id_refs_id_e3ce8dfc` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dashboard_auditlog`
+--
+
+LOCK TABLES `dashboard_auditlog` WRITE;
+/*!40000 ALTER TABLE `dashboard_auditlog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dashboard_auditlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dashboard_compiledconfig`
+--
+
+DROP TABLE IF EXISTS `dashboard_compiledconfig`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dashboard_compiledconfig` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `data` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dashboard_compiledconfig`
+--
+
+LOCK TABLES `dashboard_compiledconfig` WRITE;
+/*!40000 ALTER TABLE `dashboard_compiledconfig` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dashboard_compiledconfig` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dashboard_config`
+--
+
+DROP TABLE IF EXISTS `dashboard_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dashboard_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `title` varchar(60) NOT NULL,
+  `note` longtext NOT NULL,
+  `owner_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `public_url_id` int(11) NOT NULL,
+  `compiled_id` int(11) NOT NULL,
+  `data` longtext NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `dashboard_config_cb902d83` (`owner_id`),
+  KEY `dashboard_config_7f1b40ad` (`product_id`),
+  KEY `dashboard_config_5f7a1793` (`public_url_id`),
+  KEY `dashboard_config_a150acaf` (`compiled_id`),
+  KEY `dashboard_config_410d0aac` (`parent_id`),
+  CONSTRAINT `compiled_id_refs_id_71775e79` FOREIGN KEY (`compiled_id`) REFERENCES `dashboard_compiledconfig` (`id`),
+  CONSTRAINT `owner_id_refs_id_5b4cf0b8` FOREIGN KEY (`owner_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `parent_id_refs_id_602b5757` FOREIGN KEY (`parent_id`) REFERENCES `dashboard_config` (`id`),
+  CONSTRAINT `product_id_refs_id_aa977dcd` FOREIGN KEY (`product_id`) REFERENCES `dashboard_product` (`id`),
+  CONSTRAINT `public_url_id_refs_id_1d532794` FOREIGN KEY (`public_url_id`) REFERENCES `dashboard_publicurl` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dashboard_config`
+--
+
+LOCK TABLES `dashboard_config` WRITE;
+/*!40000 ALTER TABLE `dashboard_config` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dashboard_config` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dashboard_product`
+--
+
+DROP TABLE IF EXISTS `dashboard_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dashboard_product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `title` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dashboard_product`
+--
+
+LOCK TABLES `dashboard_product` WRITE;
+/*!40000 ALTER TABLE `dashboard_product` DISABLE KEYS */;
+INSERT INTO `dashboard_product` VALUES (1,'2014-02-03 21:39:33','2014-02-03 21:39:33','Simple Text Area'),(2,'2014-02-03 21:39:33','2014-02-03 21:39:33','Star Distance Map');
+/*!40000 ALTER TABLE `dashboard_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dashboard_publicurl`
+--
+
+DROP TABLE IF EXISTS `dashboard_publicurl`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dashboard_publicurl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `title` varchar(60) NOT NULL,
+  `note` longtext NOT NULL,
+  `url` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dashboard_publicurl`
+--
+
+LOCK TABLES `dashboard_publicurl` WRITE;
+/*!40000 ALTER TABLE `dashboard_publicurl` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dashboard_publicurl` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_admin_log`
+--
+
+DROP TABLE IF EXISTS `django_admin_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action_time` datetime NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `content_type_id` int(11) DEFAULT NULL,
+  `object_id` longtext,
+  `object_repr` varchar(200) NOT NULL,
+  `action_flag` smallint(5) unsigned NOT NULL,
+  `change_message` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_6340c63c` (`user_id`),
+  KEY `django_admin_log_37ef4eb4` (`content_type_id`),
+  CONSTRAINT `content_type_id_refs_id_93d2d1f8` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `user_id_refs_id_c0d12874` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_admin_log`
+--
+
+LOCK TABLES `django_admin_log` WRITE;
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+INSERT INTO `django_admin_log` VALUES (1,'2014-01-28 20:55:21',1,10,'1','Facebook',2,'Changed client_id and secret.'),(2,'2014-01-28 20:59:33',1,7,'2','starx2.mit.edu',1,''),(3,'2014-01-28 20:59:36',1,10,'1','Facebook',2,'Changed sites.'),(4,'2014-01-28 21:00:06',1,10,'1','Facebook',2,'Changed sites.'),(5,'2014-01-28 21:00:46',1,7,'2','starx2.mit.edu',2,'No fields changed.'),(6,'2014-01-28 21:01:08',1,10,'1','Facebook',2,'Changed sites.'),(7,'2014-01-28 21:01:31',1,7,'1','starx2.mit.edu:8000',2,'Changed domain and name.'),(8,'2014-01-28 21:01:41',1,7,'1','starx2.mit.edu:8000',3,''),(9,'2014-01-29 15:19:11',1,10,'2','Google',1,''),(10,'2014-01-29 15:43:58',1,10,'2','Google',2,'No fields changed.'),(11,'2014-01-29 15:44:55',1,10,'2','Google',2,'Changed client_id.'),(12,'2014-01-29 15:45:45',1,10,'2','Google',2,'Changed secret.');
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_content_type`
+--
+
+DROP TABLE IF EXISTS `django_content_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_content_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `app_label` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app_label` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_content_type`
+--
+
+LOCK TABLES `django_content_type` WRITE;
+/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
+INSERT INTO `django_content_type` VALUES (1,'log entry','admin','logentry'),(2,'permission','auth','permission'),(3,'group','auth','group'),(4,'user','auth','user'),(5,'content type','contenttypes','contenttype'),(6,'session','sessions','session'),(7,'site','sites','site'),(8,'email address','account','emailaddress'),(9,'email confirmation','account','emailconfirmation'),(10,'social app','socialaccount','socialapp'),(11,'social account','socialaccount','socialaccount'),(12,'social token','socialaccount','socialtoken'),(13,'product','dashboard','product'),(14,'public url','dashboard','publicurl'),(15,'compiled config','dashboard','compiledconfig'),(16,'config','dashboard','config'),(17,'audit log','dashboard','auditlog');
+/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_session`
+--
+
+DROP TABLE IF EXISTS `django_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) NOT NULL,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_b7b81f0c` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_session`
+--
+
+LOCK TABLES `django_session` WRITE;
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+INSERT INTO `django_session` VALUES ('1mkhaebwflxi5m31p2cfap8nbdt9jtaj','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:41:43'),('2voak4vt965uo18gt1i07hoyexn7c0cb','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:42:43'),('3g09hsspnyizfzwxd9f3d1lgbrtpvggj','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:42:21'),('5trldd4o3o0yb2tz1ymqx3t57puu2mha','ZGEwMjkyYzcxOWNmMWE2ZGZkODEwOWFmYTA4YzBiYzVjMWNlODExMzp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImFsbGF1dGguYWNjb3VudC5hdXRoX2JhY2tlbmRzLkF1dGhlbnRpY2F0aW9uQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOjN9','2014-02-17 15:43:03'),('ad1wj3935a1q8f6uwx0wubyuyethampk','ODMyMTBmZmZkNWYyNjc1ZDNkZDRiOTI5ZjdkYjU4YTcxYTQyNjRhYjp7Il9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9pZCI6MSwic29jaWFsYWNjb3VudF9zdGF0ZSI6W3sicHJvY2VzcyI6ImxvZ2luIn0sIlRhbzJhQ2wwZWZ2ZSJdfQ==','2014-02-12 15:43:24'),('em68q5vlhytnlqgjewsqa5cgmff6o27h','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:42:46'),('gnrt99e9ffq539v037ttkuvwmb65hcz4','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:43:00'),('s0arrd6zqxnb3ye5q5vjrf0j6il6b56p','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:42:58'),('seb2wcd9wugvwtkm1tnearo6tx4niwe6','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:42:45'),('y4spycyjmvcls3n6yfh6ld4cv0qaj1zl','MWU2MWVlNTFkNDUxOWZiNjk4ZTlmMTNkMjNjOTBkNWRkNWEzYjY4Njp7fQ==','2014-02-11 19:41:43');
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_site`
+--
+
+DROP TABLE IF EXISTS `django_site`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_site` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `domain` varchar(100) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_site`
+--
+
+LOCK TABLES `django_site` WRITE;
+/*!40000 ALTER TABLE `django_site` DISABLE KEYS */;
+INSERT INTO `django_site` VALUES (2,'starx2.mit.edu','starx2.mit.edu');
+/*!40000 ALTER TABLE `django_site` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `socialaccount_socialaccount`
+--
+
+DROP TABLE IF EXISTS `socialaccount_socialaccount`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `socialaccount_socialaccount` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `provider` varchar(30) NOT NULL,
+  `uid` varchar(255) NOT NULL,
+  `last_login` datetime NOT NULL,
+  `date_joined` datetime NOT NULL,
+  `extra_data` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `provider` (`provider`,`uid`),
+  KEY `socialaccount_socialaccount_6340c63c` (`user_id`),
+  CONSTRAINT `user_id_refs_id_b4f0248b` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `socialaccount_socialaccount`
+--
+
+LOCK TABLES `socialaccount_socialaccount` WRITE;
+/*!40000 ALTER TABLE `socialaccount_socialaccount` DISABLE KEYS */;
+INSERT INTO `socialaccount_socialaccount` VALUES (1,2,'facebook','1357866495','2014-01-28 21:08:02','2014-01-28 21:08:02','{\"username\": \"ivica.ceraj\", \"first_name\": \"Ivica\", \"last_name\": \"Ceraj\", \"verified\": true, \"name\": \"Ivica Ceraj\", \"locale\": \"en_US\", \"hometown\": {\"id\": \"116619061681465\", \"name\": \"Zagreb, Croatia\"}, \"email\": \"iceraj@hotmail.com\", \"link\": \"https://www.facebook.com/ivica.ceraj\", \"location\": {\"id\": \"112406605441665\", \"name\": \"Brookline, Massachusetts\"}, \"gender\": \"male\", \"timezone\": -5, \"updated_time\": \"2013-11-15T16:09:19+0000\", \"id\": \"1357866495\"}'),(2,3,'google','101033631762132540828','2014-02-03 15:43:03','2014-01-29 15:58:14','{\"family_name\": \"Ceraj\", \"name\": \"Ivica Ceraj\", \"picture\": \"https://lh3.googleusercontent.com/-Qcx3oGaYoGI/AAAAAAAAAAI/AAAAAAAAEWM/IgeXgV5r7zI/photo.jpg?sz=50\", \"locale\": \"en\", \"gender\": \"male\", \"email\": \"iceraj@gmail.com\", \"link\": \"https://plus.google.com/101033631762132540828\", \"given_name\": \"Ivica\", \"id\": \"101033631762132540828\", \"verified_email\": \"true\"}');
+/*!40000 ALTER TABLE `socialaccount_socialaccount` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `socialaccount_socialapp`
+--
+
+DROP TABLE IF EXISTS `socialaccount_socialapp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `socialaccount_socialapp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `provider` varchar(30) NOT NULL,
+  `name` varchar(40) NOT NULL,
+  `client_id` varchar(100) NOT NULL,
+  `key` varchar(100) NOT NULL,
+  `secret` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `socialaccount_socialapp`
+--
+
+LOCK TABLES `socialaccount_socialapp` WRITE;
+/*!40000 ALTER TABLE `socialaccount_socialapp` DISABLE KEYS */;
+INSERT INTO `socialaccount_socialapp` VALUES (1,'facebook','Facebook','644812058912242','','d714176660836298f85b4c70a45067c1'),(2,'google','Google','573260407629-fu4q96gf6hdacmhfhehq1i8ocm3b9agp.apps.googleusercontent.com','','30V4yI3PCgHnZ6APRsk9_GiF');
+/*!40000 ALTER TABLE `socialaccount_socialapp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `socialaccount_socialapp_sites`
+--
+
+DROP TABLE IF EXISTS `socialaccount_socialapp_sites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `socialaccount_socialapp_sites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `socialapp_id` int(11) NOT NULL,
+  `site_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `socialapp_id` (`socialapp_id`,`site_id`),
+  KEY `socialaccount_socialapp_sites_f2973cd1` (`socialapp_id`),
+  KEY `socialaccount_socialapp_sites_99732b5c` (`site_id`),
+  CONSTRAINT `site_id_refs_id_05d6147e` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`),
+  CONSTRAINT `socialapp_id_refs_id_e7a43014` FOREIGN KEY (`socialapp_id`) REFERENCES `socialaccount_socialapp` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `socialaccount_socialapp_sites`
+--
+
+LOCK TABLES `socialaccount_socialapp_sites` WRITE;
+/*!40000 ALTER TABLE `socialaccount_socialapp_sites` DISABLE KEYS */;
+INSERT INTO `socialaccount_socialapp_sites` VALUES (6,1,2),(10,2,2);
+/*!40000 ALTER TABLE `socialaccount_socialapp_sites` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `socialaccount_socialtoken`
+--
+
+DROP TABLE IF EXISTS `socialaccount_socialtoken`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `socialaccount_socialtoken` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `token` longtext NOT NULL,
+  `token_secret` varchar(200) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `app_id` (`app_id`,`account_id`),
+  KEY `socialaccount_socialtoken_60fc113e` (`app_id`),
+  KEY `socialaccount_socialtoken_93025c2f` (`account_id`),
+  CONSTRAINT `account_id_refs_id_1337a128` FOREIGN KEY (`account_id`) REFERENCES `socialaccount_socialaccount` (`id`),
+  CONSTRAINT `app_id_refs_id_edac8a54` FOREIGN KEY (`app_id`) REFERENCES `socialaccount_socialapp` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `socialaccount_socialtoken`
+--
+
+LOCK TABLES `socialaccount_socialtoken` WRITE;
+/*!40000 ALTER TABLE `socialaccount_socialtoken` DISABLE KEYS */;
+INSERT INTO `socialaccount_socialtoken` VALUES (1,1,1,'CAAJKdAG35fIBAEDbf59ylRqE8PtQvECk9k8ZCYqIoHOD2jhQisfUr3CKdwI93CfFh4wttEEiDGd63PAG530n0y8B5kZBZATe87v4lhXgalgp8ZCA6XFCeOReLHIsz5VwcwkWJhZA9aQwhQeNqCfMkLXObLOQZAEYGPvZCHDwEjW6d5C6hfU6tOcHGZBCZCWF3VrcZD','',NULL),(2,2,2,'ya29.1.AADtN_XHZaEBNuo5sgyNmexrHDTuWeOn8TyDmbA-hK4GnOFKZAfPSHjRpdqPge2yeFb2gQ','','2014-02-03 16:43:01');
+/*!40000 ALTER TABLE `socialaccount_socialtoken` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2014-02-10 15:32:02
