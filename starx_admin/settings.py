@@ -25,7 +25,7 @@ DEBUG = os.environ['STARX_ENV'] != 'PROD'
 
 TEMPLATE_DEBUG = os.environ['STARX_ENV'] != 'PROD'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ '127.0.0.1', 'localhost','starx.mit.edu']
 
 
 # Application definition

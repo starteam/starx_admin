@@ -6,15 +6,18 @@ admin.autodiscover()
 from django.views.generic import RedirectView
 
 
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'starx_admin.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^accounts/', include('allauth.urls')),
+    url(r'^mit_accounts/', include('mit_accounts.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^dashboard/', include('dashboard.urls')),
-    (r'^$', RedirectView.as_view(url='/dashboard/')),
+    url(r'^/dashboard/', include('dashboard.urls')),
+#    (r'^$', RedirectView.as_view(url='/dashboard/')),
 
 )
 from django.conf import settings
@@ -25,3 +28,4 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^__debug__/', include(debug_toolbar.urls)),
     )
+

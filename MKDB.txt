@@ -1,0 +1,8 @@
+mysql> create database starx;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create user 'starx'@'localhost' IDENTIFIED BY '$$HERE_GOES_PASSWORD$$';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> grant all privileges on starx.* TO 'starx'@'localhost';
+Query OK, 0 rows affected (0.04 sec)
