@@ -1,0 +1,27 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+
+{% block head_title %}{% trans "Sign In" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "Sign In" %}</h1>
+
+{% if socialaccount.providers  %}
+<p>{% blocktrans with site.name as site_name %}Please sign in with one
+of your existing third party accounts.
+{% endblocktrans %}</p>
+
+<div class="socialaccount_ballot">
+
+  <ul class="socialaccount_providers">
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+      <li><a title="MIT Client Certificate" class="socialaccount_provider mit_ssl" href="/mit_accounts">MIT Client Certificate</a></li>
+  </ul>
+</div>
+{% endif %}
+
+{% endblock %}
