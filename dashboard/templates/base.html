@@ -1,0 +1,61 @@
+{% load url from future %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block head_title %}StarX Admin Base Template (head_title){% endblock %}</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="shortcut icon" href="/favicon.ico">
+
+        <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script async src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script async src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    </head>
+    <body>
+    START
+    {% block body %}
+
+        {% if messages %}
+        <div>
+          <strong>Messages:</strong>
+          <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            	<li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+	    {% else %}
+	        <li><a href="{% url 'account_login' %}">Sign In</a></li>
+	        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+	    {% endif %}
+
+    {% block content %}
+        (content)
+    {% endblock %}
+
+    {% endblock %}
+    {% block extra_body %}
+        (extra_body)
+        Scaffold
+        <a href="/accounts/login/">Login</a>
+        <a href="/accounts/logout/">Logout</a>
+    {% endblock %}
+
+    </body>
+</html>
