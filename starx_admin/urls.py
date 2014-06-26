@@ -1,10 +1,11 @@
+
+from django.conf import settings
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
 admin.autodiscover()
 
 from django.views.generic import RedirectView
-
 
 
 urlpatterns = patterns('',
@@ -17,15 +18,14 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^/dashboard/', include('dashboard.urls')),
+    url(r'^/lti/', include('ims_lti.urls')),
+    url(r'^lti/', include('ims_lti.urls')),
 #    (r'^$', RedirectView.as_view(url='/dashboard/')),
-
 )
-from django.conf import settings
-from django.conf.urls import include, patterns, url
 
-if settings.DEBUG:
+
+if settings.DEBUG_TOOLBAR:
     import debug_toolbar
     urlpatterns += patterns('',
         url(r'^__debug__/', include(debug_toolbar.urls)),
     )
-

@@ -24,8 +24,12 @@ SECRET_KEY = 'fqy7m2xs_fa(e*3mc$lsr71c6(3z!%06@io^&7%rj717oq-u0f'
 DEBUG = os.environ['STARX_ENV'] != 'PROD'
 
 TEMPLATE_DEBUG = os.environ['STARX_ENV'] != 'PROD'
+#DEBUG_TOOLBAR = os.environ['STARX_ENV'] != 'PROD'
+DEBUG_TOOLBAR = False
+DEBUG = False
+TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = [ '127.0.0.1', 'localhost','starx.mit.edu']
+ALLOWED_HOSTS = [ '127.0.0.1', 'localhost','starx.mit.edu','18.111.90.95']
 
 
 # Application definition
@@ -38,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dashboard',
+    'ims_lti'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,7 +57,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'starx_admin.urls'
 
 WSGI_APPLICATION = 'starx_admin.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -93,7 +97,7 @@ STATICFILES_DIRS = (
 INSTALLED_APPS += ( 'dashboard', )
 
 # SiteID
-SITE_ID = 2
+SITE_ID = 1
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -152,3 +156,9 @@ MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 )
+
+## LTI click
+X_FRAME_OPTIONS = 'ALLOW *'
+LTI_DEBUG = True
+CONSUMER_KEY = "__consumer_key__"
+LTI_SECRET = "__lti_secret__"
