@@ -29,7 +29,7 @@ DEBUG_TOOLBAR = False
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = [ '127.0.0.1', 'localhost','starx.mit.edu','18.111.90.95']
+ALLOWED_HOSTS = [ '127.0.0.1', 'localhost','starx.mit.edu','18.111.90.95','192.168.33.1']
 
 
 # Application definition
@@ -158,7 +158,7 @@ MIDDLEWARE_CLASSES += (
 )
 
 ## LTI click
-X_FRAME_OPTIONS = 'ALLOW *'
+X_FRAME_OPTIONS = 'ALLOW-FROM: *'
 LTI_DEBUG = True
 CONSUMER_KEY = "__consumer_key__"
 LTI_SECRET = "__lti_secret__"

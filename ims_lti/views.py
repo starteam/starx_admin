@@ -36,45 +36,22 @@ def index(request):
         pass
 
     session['is_valid'] = is_valid
-    # import pudb
-    # pudb.set_trace()
-    post_result = tool.post_replace_result(.5,{'message_identifier':'edX_fix'})
-    session['is_success'] = post_result.is_success()
-#    post_delete = tool.post_delete_result()
-#    session['is_delete_success'] = post_delete.is_success()
-    if settings.LTI_DEBUG:
-        print "SESSSION"
-        for k in session.keys():
-            print "{}={}".format( k, session[k])
-    session['LTI_POST'] = pickle.dumps( request.POST )
+    session['LTI_POST'] = pickle.dumps( request_dict )
     return redirect('AddProblem')
 
 @csrf_exempt
 def add_problem(request):
     print "Add problem session"
     session = request.session
-    # request_post = dict(pickle.loads(session['LTI_POST']))
-    # print request_post['lis_outcome_service_url']
-    # request_post['lis_outcome_service_url'] = fix_url(request_post['lis_outcome_service_url'][0])
-    # print request_post['lis_outcome_service_url']
-    # consumer_key = settings.CONSUMER_KEY
-    # secret = settings.LTI_SECRET
-    # print "Add problem session 2"
-    # import pudb; pudb.set_trace()
-    #
-    # tool = DjangoToolProvider(consumer_key, secret, request_post)
-    # post_result = tool.post_replace_result(50)
-    # print "Add problem session 3"
-    # session['is_success'] = post_result.is_success()
-    # post_delete = tool.post_delete_result()
-    # session['is_delete_success'] = post_delete.is_success()
-    session['LTI_POST'] = ''
-    print "Add problem session 4"
-    if settings.LTI_DEBUG:
-        print "SESSSION"
-        for k in session.keys():
-            print "{}={}".format( k, session[k])
+    if session['LTI_POST']:
+        request_post = pickle.loads(session['LTI_POST'])
 
+        request_post['lis_outcome_service_url'] = fix_url(request_post['lis_outcome_service_url'])
+        consumer_key = settings.CONSUMER_KEY
+        secret = settings.LTI_SECRET
+        tool = DjangoToolProvider(consumer_key, secret, request_post)
+        post_result = tool.post_replace_result(.32,{'message_identifier':'edX_fix'})
+        print post_result.is_success()
     return render_to_response("ims_lti/index.html",  RequestContext(request))
 
 def fix_url(str):
